@@ -249,6 +249,12 @@ def main():
 
     # Evaluate after fine-tuning
     console.print("\n[bold]Evaluating after fine-tuning...[/bold]")
+
+    # Disable gradient checkpointing for inference
+    if hasattr(model, "gradient_checkpointing_disable"):
+        model.gradient_checkpointing_disable()
+    model.eval()
+
     after_responses = evaluate_model(model, tokenizer, test_prompts)
 
     # Display comparison
