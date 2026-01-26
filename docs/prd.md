@@ -94,6 +94,11 @@ One billion parameters represents a critical inflection point in language model 
 
 Use `uv` for all package management:
 ```bash
+# Create and activate virtual environment
+uv venv
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+
+# Install dependencies
 uv pip install -r requirements.txt
 ```
 

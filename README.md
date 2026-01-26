@@ -46,7 +46,11 @@ One billion parameters is the magic number for language models:
 git clone https://github.com/softwarewrighter/billion-llm
 cd billion-llm
 
-# Install dependencies (using uv)
+# Create and activate virtual environment
+uv venv
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+
+# Install dependencies
 uv pip install -r requirements.txt
 
 # Download models

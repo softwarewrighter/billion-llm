@@ -1,6 +1,6 @@
 # Project Status: billion-llm
 
-## Current Status: Planning Complete
+## Current Status: Implementation Complete
 
 **Last Updated**: 2025-01-26
 
@@ -19,55 +19,64 @@ The billion-llm project compares 1B-class language models, demonstrates fine-tun
 | docs/design.md | Done | Design decisions recorded |
 | docs/plan.md | Done | Implementation plan created |
 | docs/status.md | Done | This file |
-| README.md | Not Started | Main readme |
-| docs/COMPARISON.md | Not Started | Model comparison results |
+| README.md | Done | Main readme with quick start |
+| docs/COMPARISON.md | Pending | Will be generated after benchmarks |
 
 ### Implementation
 
 | Component | Status | Notes |
 |-----------|--------|-------|
-| requirements.txt | Not Started | Dependencies list |
-| download_models.py | Not Started | Model acquisition script |
-| benchmark.py | Not Started | Performance benchmarks |
-| demo_chat.py | Not Started | Interactive chat demo |
-| finetune_demo.py | Not Started | LoRA fine-tuning demo |
-| speculative_demo.py | Not Started | Draft model acceleration |
-| utils/ | Not Started | Shared utilities |
-| results/ | Not Started | Output directory |
+| requirements.txt | Done | All dependencies listed |
+| download_models.py | Done | Downloads all 4 models |
+| benchmark.py | Done | MMLU, speed, memory benchmarks |
+| demo_chat.py | Done | Single and comparison modes |
+| finetune_demo.py | Done | LoRA fine-tuning with before/after |
+| speculative_demo.py | Done | Draft model acceleration |
+| utils/ | Done | Model loader, memory tracking |
+| results/ | Done | Output directory created |
 
 ### Models
 
 | Model | Downloaded | Tested | Benchmarked |
 |-------|------------|--------|-------------|
-| TinyLlama-1.1B-Chat-v1.0 | No | No | No |
-| Llama-3.2-1B-Instruct | No | No | No |
-| stablelm-2-1_6b-chat | No | No | No |
-| pythia-1b | No | No | No |
+| TinyLlama-1.1B-Chat-v1.0 | Pending | Pending | Pending |
+| Llama-3.2-1B-Instruct | Pending | Pending | Pending |
+| stablelm-2-1_6b-chat | Pending | Pending | Pending |
+| pythia-1b | Pending | Pending | Pending |
+
+## Quick Start
+
+```bash
+# Create and activate virtual environment
+uv venv
+source .venv/bin/activate
+
+# Install dependencies
+uv pip install -r requirements.txt
+
+# Download models
+python download_models.py
+
+# Run demos
+python demo_chat.py --model tinyllama
+python benchmark.py --skip-mmlu
+python finetune_demo.py
+python speculative_demo.py
+```
 
 ## Next Steps
 
-1. **Immediate**: Create requirements.txt with pinned versions
-2. **Next**: Implement download_models.py
-3. **Then**: Build core utilities (model loader, memory tracker)
-4. **After**: Implement benchmarks and demos
-
-## Blockers
-
-- None currently
-
-## Decisions Pending
-
-- [ ] Confirm HumanEval subset selection (20 problems)
-- [ ] Decide on training dataset for fine-tuning demo
-- [ ] Choose target model for speculative decoding (Llama-2-7B or Llama-3.2-3B)
+1. **Download models**: Run `python download_models.py`
+2. **Run benchmarks**: Generate comparison data
+3. **Create COMPARISON.md**: Document results
 
 ## Changelog
 
 ### 2025-01-26
 - Created initial documentation suite
-- Defined project scope and requirements
-- Designed system architecture
-- Created implementation plan
+- Implemented all core scripts
+- Added utility modules for model loading and memory tracking
+- Ready for model download and benchmarking
 
 ---
 
