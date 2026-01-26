@@ -13,8 +13,7 @@ from peft import LoraConfig, get_peft_model, TaskType
 from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
-from transformers import TrainingArguments
-from trl import SFTTrainer
+from trl import SFTTrainer, SFTConfig
 
 from utils import load_model, load_tokenizer, get_device, MODEL_ALIASES
 from utils.memory import track_memory, clear_memory, get_memory_usage
@@ -208,7 +207,7 @@ def main():
     output_dir = Path(args.output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    training_args = TrainingArguments(
+    training_config = SFTConfig(
         output_dir=str(output_dir),
         num_train_epochs=args.epochs,
         per_device_train_batch_size=4,
@@ -218,13 +217,15 @@ def main():
         save_strategy="epoch",
         fp16=torch.cuda.is_available(),
         report_to="none",
-        remove_unused_columns=False,
+        dataset_text_field="text",
+        max_length=512,
+        packing=False,
     )
 
     # Create trainer
     trainer = SFTTrainer(
         model=model,
-        args=training_args,
+        args=training_config,
         train_dataset=dataset,
         processing_class=tokenizer,
     )
