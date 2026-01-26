@@ -31,7 +31,16 @@ def generate_baseline(
     model, tokenizer, prompt: str, max_new_tokens: int = 100
 ) -> tuple[str, float, int]:
     """Generate using standard autoregressive decoding."""
-    inputs = tokenizer(prompt, return_tensors="pt")
+    # Apply chat template if available
+    if hasattr(tokenizer, "apply_chat_template"):
+        messages = [{"role": "user", "content": prompt}]
+        formatted_prompt = tokenizer.apply_chat_template(
+            messages, tokenize=False, add_generation_prompt=True
+        )
+    else:
+        formatted_prompt = prompt
+
+    inputs = tokenizer(formatted_prompt, return_tensors="pt")
     device = next(model.parameters()).device
     inputs = {k: v.to(device) for k, v in inputs.items()}
 

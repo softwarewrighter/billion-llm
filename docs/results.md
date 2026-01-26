@@ -126,16 +126,78 @@
 
 ---
 
+---
+
+## 4. Speculative Decoding Demo Results
+
+**Draft Model**: TinyLlama/TinyLlama-1.1B-Chat-v1.0 (instruction-tuned)
+**Target Model**: EleutherAI/pythia-1b (base model)
+**Device**: MPS (Apple Silicon)
+**Draft tokens (k)**: 4
+
+### Configuration
+
+| Parameter | Value |
+|-----------|-------|
+| Prompt | "Explain the theory of relativity in simple terms." |
+| Max tokens | 100 |
+| Draft tokens per iteration (k) | 4 |
+
+### Performance Results
+
+| Method | Speed (tok/s) | Time (s) | Tokens | Notes |
+|--------|---------------|----------|--------|-------|
+| Draft (TinyLlama) | **32.4** | 3.09 | 100 | Instruction-tuned, coherent output |
+| Target (Pythia-1b) | **25.2** | 3.97 | 100 | Base model, incoherent with chat format |
+| Speculative | **7.4** | 13.91 | 103 | 48.5% acceptance rate |
+
+### Speculative Decoding Stats
+
+| Metric | Value |
+|--------|-------|
+| Draft iterations | 53 |
+| Tokens accepted | 50 |
+| Tokens rejected | 53 |
+| Acceptance rate | **48.5%** |
+| Speedup vs target | **0.29x** (slowdown) |
+
+### Analysis
+
+The speculative decoding demo shows a **slowdown** rather than speedup. This is expected and educational:
+
+**Why no speedup?**
+1. **Similar model sizes**: Both models are ~1B parameters, so draft isn't significantly faster
+2. **Distribution mismatch**: TinyLlama (instruction-tuned) vs Pythia (base model) have very different output distributions
+3. **Low acceptance rate**: 48.5% acceptance means frequent rejections and resampling overhead
+
+**When speculative decoding helps:**
+- Draft model is **significantly faster** (e.g., 1B draft for 7B+ target)
+- Models from **same family** (e.g., TinyLlama draft for Llama-2-7B target)
+- **Similar training** (both instruction-tuned or both base)
+
+### Sample Outputs
+
+**Draft Model (TinyLlama):**
+> The theory of relativity is a scientific theory that explains how objects move and interact with each other in a way that is consistent with the principles of physics. It is based on the principle of relativity, which states that the laws of physics are the same for all observers, regardless of their location or velocity.
+
+**Target Model (Pythia-1b):**
+> (Incoherent output - base model doesn't understand chat format)
+
+**Conclusion**: This demo successfully demonstrates the speculative decoding mechanism, but highlights that model compatibility is crucial for achieving speedup.
+
+---
+
 ## Key Findings
 
-1. **Speed**: TinyLlama achieves 42.3 tokens/second on Apple Silicon MPS
+1. **Speed**: TinyLlama achieves 32-42 tokens/second on Apple Silicon MPS
 2. **Memory**: Only 0.5 GB required for inference (FP16)
 3. **Fine-tuning**: LoRA enables training in ~1 minute with minimal memory overhead
 4. **Quality**: Fine-tuning with 100 samples shows measurable improvement in response style
+5. **Speculative Decoding**: Requires compatible model pairs (same family, similar training) for speedup
 
 ## Next Steps
 
-- [ ] Benchmark remaining models (Llama-3.2-1B, StableLM-1.6B, Pythia-1B)
+- [ ] Benchmark remaining models (Llama-3.2-1B, StableLM-1.6B)
 - [ ] Run MMLU evaluation
-- [ ] Test speculative decoding
+- [ ] Test with compatible model pair for speculative decoding speedup
 - [ ] Compare INT4/INT8 quantization performance
