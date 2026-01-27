@@ -50,8 +50,8 @@ The billion-llm project compares 1B-class language models, demonstrates fine-tun
 | Test | Status | Key Results |
 |------|--------|-------------|
 | Chat Demo | Passed | 3.95s response time on MPS |
-| Benchmark (TinyLlama) | Passed | 42.3 tok/s, 0.50 GB memory |
-| Benchmark (Pythia) | Passed | 46.9 tok/s, 0.69 GB memory |
+| Benchmark (TinyLlama) | Passed | 42.4 tok/s, 0.97 GB, 27.0% MMLU |
+| Benchmark (Pythia) | Passed | 46.8 tok/s, 0.69 GB, 31.0% MMLU |
 | Fine-tuning Demo | Passed | 69s for 3 epochs, loss 1.84→1.60 |
 | Speculative Decoding | Passed | Demo works, shows model compatibility importance |
 
@@ -86,7 +86,7 @@ python speculative_demo.py --draft-model tinyllama
 
 1. [ ] Fix StableLM compatibility or document workaround
 2. [ ] Test with HF authentication for Llama-3.2-1B
-3. [ ] Run MMLU benchmarks
+3. [x] Run MMLU benchmarks (TinyLlama: 27.0%, Pythia: 31.0%)
 4. [ ] Create docs/COMPARISON.md with full results
 5. [ ] Test INT4/INT8 quantization
 

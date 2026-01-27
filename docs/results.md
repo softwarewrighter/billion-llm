@@ -50,15 +50,17 @@
 
 ### Summary Table
 
-| Model | Params | Speed (tok/s) | Memory (GB) |
-|-------|--------|---------------|-------------|
-| TinyLlama-1.1B-Chat-v1.0 | 1.1B | 42.3 | 0.50 |
-| Pythia-1b | 1.08B | 46.9 | 0.69 |
+| Model | Params | Speed (tok/s) | Memory (GB) | MMLU (%) |
+|-------|--------|---------------|-------------|----------|
+| TinyLlama-1.1B-Chat-v1.0 | 1.1B | 42.4 | 0.97 | 27.0 |
+| Pythia-1b | 1.08B | 46.8 | 0.69 | 31.0 |
 
 **Observations:**
-- Pythia is slightly faster (46.9 vs 42.3 tok/s) despite similar size
-- TinyLlama uses less memory (0.50 vs 0.69 GB)
+- Pythia scores higher on MMLU (31.0% vs 27.0%) despite being a base model
+- Pythia is slightly faster (46.8 vs 42.4 tok/s)
+- TinyLlama uses more memory during MMLU evaluation (0.97 GB peak)
 - Both run comfortably on consumer hardware
+- Note: Random baseline for 4-choice MMLU is 25%
 
 ---
 
