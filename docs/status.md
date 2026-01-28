@@ -21,7 +21,7 @@ The billion-llm project compares 1B-class language models, demonstrates fine-tun
 | docs/status.md | Done | This file |
 | docs/results.md | Done | Test results documented |
 | README.md | Done | Main readme with quick start |
-| docs/COMPARISON.md | Pending | Full model comparison |
+| docs/COMPARISON.md | Done | Full model comparison |
 
 ### Implementation
 
@@ -87,7 +87,7 @@ python speculative_demo.py --draft-model tinyllama
 1. [ ] Fix StableLM compatibility or document workaround
 2. [ ] Test with HF authentication for Llama-3.2-1B
 3. [x] Run MMLU benchmarks (TinyLlama: 27.0%, Pythia: 31.0%)
-4. [ ] Create docs/COMPARISON.md with full results
+4. [x] Create docs/COMPARISON.md with full results
 5. [ ] Test INT4/INT8 quantization
 
 ## Changelog
