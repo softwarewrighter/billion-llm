@@ -88,7 +88,7 @@ python speculative_demo.py --draft-model tinyllama
 2. [ ] Test with HF authentication for Llama-3.2-1B
 3. [x] Run MMLU benchmarks (TinyLlama: 27.0%, Pythia: 31.0%)
 4. [x] Create docs/COMPARISON.md with full results
-5. [ ] Test INT4/INT8 quantization
+5. [x] Test INT4/INT8 quantization (bitsandbytes slow on MPS, use FP16)
 
 ## Changelog
 

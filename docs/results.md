@@ -195,17 +195,51 @@ The speculative decoding demo shows a **slowdown** rather than speedup. This is 
 
 ---
 
+---
+
+## 5. Quantization Results
+
+**Device**: MPS (Apple Silicon)
+**Model**: TinyLlama-1.1B-Chat-v1.0
+
+### Quantization Comparison
+
+| Mode | Speed (tok/s) | Memory (GB) | Status |
+|------|---------------|-------------|--------|
+| FP16 (default) | **42.4** | 0.97 | Recommended for MPS |
+| INT8 | 3.4 | 0.60 | Works but 12x slower |
+| INT4 | - | - | Failed on MPS |
+
+### Analysis
+
+**Why is INT8 slower on MPS?**
+- bitsandbytes is optimized for CUDA, not Apple Silicon
+- Quantized ops fall back to slower CPU kernels
+- Memory savings (38%) don't offset speed loss
+
+**INT4 Failure:**
+- bitsandbytes 4-bit quantization incompatible with MPS
+- Error: tensor creation mismatch
+
+**Recommendations:**
+- **On Apple Silicon (MPS)**: Use FP16 (default) - fastest option
+- **On NVIDIA GPU (CUDA)**: INT8/INT4 will provide real speedup and memory savings
+- **On CPU**: Consider GGUF format (llama.cpp) instead of bitsandbytes
+
+---
+
 ## Key Findings
 
-1. **Speed**: TinyLlama achieves 32-42 tokens/second on Apple Silicon MPS
-2. **Memory**: Only 0.5 GB required for inference (FP16)
+1. **Speed**: TinyLlama achieves 42 tokens/second on Apple Silicon MPS (FP16)
+2. **Memory**: 0.69-0.97 GB required for inference (FP16)
 3. **Fine-tuning**: LoRA enables training in ~1 minute with minimal memory overhead
 4. **Quality**: Fine-tuning with 100 samples shows measurable improvement in response style
 5. **Speculative Decoding**: Requires compatible model pairs (same family, similar training) for speedup
+6. **Quantization**: bitsandbytes INT8/INT4 not recommended on MPS - use FP16 instead
 
 ## Next Steps
 
 - [ ] Benchmark remaining models (Llama-3.2-1B, StableLM-1.6B)
-- [ ] Run MMLU evaluation
+- [x] Run MMLU evaluation
 - [ ] Test with compatible model pair for speculative decoding speedup
-- [ ] Compare INT4/INT8 quantization performance
+- [x] Compare INT4/INT8 quantization performance (bitsandbytes slow on MPS)

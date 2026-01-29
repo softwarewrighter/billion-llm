@@ -186,7 +186,13 @@ Both models run on:
 - ✅ CPU (slower)
 - ✅ Apple Silicon (MPS)
 - ✅ NVIDIA GPU (CUDA)
-- ✅ INT4/INT8 quantization supported
+
+**Quantization Notes:**
+| Platform | Recommendation |
+|----------|----------------|
+| NVIDIA CUDA | INT8/INT4 recommended (bitsandbytes optimized) |
+| Apple MPS | FP16 recommended (quantization 12x slower) |
+| CPU | Consider GGUF format (llama.cpp) |
 
 ---
 
